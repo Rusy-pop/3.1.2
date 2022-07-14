@@ -5,9 +5,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -24,8 +26,9 @@ public class AdminController {
 
     @PostMapping
     public String saveUser(@ModelAttribute("newUser") User newUser) {
+        newUser.setRoles(Collections.singleton(Role.USER));
         userService.create(newUser);
-        return "usersCrudOp";
+        return "redirect:/admin";
     }
 
     @GetMapping
