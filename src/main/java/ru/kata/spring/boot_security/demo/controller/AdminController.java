@@ -27,13 +27,13 @@ public class AdminController {
     @PostMapping
     public String saveUser(@ModelAttribute("newUser") User newUser) {
         newUser.setRoles(Collections.singleton(Role.USER));
-        userService.create(newUser);
+        userService.createUser(newUser);
         return "redirect:/admin";
     }
 
     @GetMapping
     public String getAllUsers(Model model) {
-        List<User> list = userService.readAll();
+        List<User> list = userService.findAllUsers();
         model.addAttribute("users", list);
         System.out.println(list);
         return "usersCrudOp";
@@ -42,22 +42,21 @@ public class AdminController {
     @GetMapping("{id}")
     public String getUser(@PathVariable(name = "id") long id,
                           Model model) {
-        model.addAttribute("user", userService.read(id));
+        model.addAttribute("user", userService.findUserById(id));
         return "update";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("{id}")
     public String updateUser(@ModelAttribute("updateUser") User updateUser,
                              @PathVariable(name = "id") long id) {
         updateUser.setId(id);
-        System.out.println(updateUser);
-        userService.update(updateUser);
+        userService.updateUser(updateUser);
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public String deleteUser(@PathVariable(name = "id") long id) {
-        userService.delete(id);
+        userService.deleteUser(id);
         return "redirect:/admin";
     }
 }

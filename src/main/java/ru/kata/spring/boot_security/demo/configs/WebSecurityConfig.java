@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.sql.DataSource;
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login","/registration").permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin").hasAuthority("ADMIN")
+                .antMatchers("/admin").hasAnyAuthority("ADMIN")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user", "/index").hasAnyAuthority("USER", "ADMIN")
@@ -58,4 +59,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         auth.authenticationProvider(provider);
     }
+
 }
