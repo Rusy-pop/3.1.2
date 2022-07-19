@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -34,14 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/user", "/index").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/login","/registration").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/admin").hasAuthority("ADMIN")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/user", "/index").hasAnyAuthority("USER", "ADMIN")
-                    .anyRequest().authenticated()
                 .and()
                     .formLogin().successHandler(successUserHandler)
                     .permitAll()
@@ -54,10 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // переписать под UserDetails
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        provider.setUserDetailsService(userService);
-        auth.authenticationProvider(provider);
+        auth.userDetailsService(userService);
+    }
+
+    @Bean
+    PasswordEncoder getPasswordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
     }
 
 }

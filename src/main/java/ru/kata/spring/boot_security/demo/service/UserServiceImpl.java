@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 import ru.kata.spring.boot_security.demo.repo.UserRepo;
 
 import javax.annotation.PostConstruct;
@@ -19,10 +20,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
-
+    private RoleRepo roleRepo;
 
     @Autowired
-    UserServiceImpl(UserRepo userRepo) {
+    UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo) {
+        this.roleRepo = roleRepo;
         this.userRepo = userRepo;
     }
 
@@ -63,7 +65,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByName(username);
+        User user = userRepo.findUserByName(username);
+        if (user == null) throw new UsernameNotFoundException("User not found");
+        user.setRoles(roleRepo.findRolesByUserId(user.getId()));
+        return user;
     }
 
     @Override
