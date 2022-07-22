@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>User</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-<form th:action="@{/user}" th:object="${user}" th:method="GET">
-<!--    <div>-->
-<!--        <td th:utext="${user.getId()}"/>-->
-<!--        <td th:utext="${user.getName()}"/>-->
-<!--        <td th:utext="${user.getEmail()}"/>-->
-<!--        <td th:utext="${user.getAge()}"/>-->
-<!--        <td th:utext="${user.getRoles()}"/>-->
-<!--    </div>-->
-        User name:
-        <div sec:authentication="name"></div>
-        User roles:
-        <div sec:authentication="principal.authorities"></div>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+        <th>email</th>
+    </tr>
+    <tr th:object="${oneUser}">
+        <td th:text="${oneUser.getId()}"></td>
+        <td th:text="${oneUser.getUsername()}"></td>
+        <td th:text="${oneUser.getAge()}"></td>
+        <td th:text="${oneUser.getEmail()}"></td>
+    </tr>
+</table>
+<form action="#" th:action="@{/logout}" method="get">
+    <input type="submit" value="exit"/>
 </form>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-
 </body>
 </html>

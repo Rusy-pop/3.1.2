@@ -8,7 +8,7 @@
 <body>
 <div>
     <form th:action="@{{id} (id=${user.getId()})}" th:object="${user}" th:method="PATCH">
-        <div><input type="text" name="name" th:value="*{name}"></div>
+        <div><input type="text" name="username" th:value="*{username}"></div>
         <div><input type="text" name="email" th:value="*{email}"></div>
         <div><input type="number" name="age" th:value="*{age}"></div>
         <div><input type="submit" th:value="Update"></div>
