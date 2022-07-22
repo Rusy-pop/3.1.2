@@ -8,27 +8,19 @@
 <table border="1" cellpadding="5">
     <tr>
         <th>id</th>
-        <th>username</th>
-        <th>lastname</th>
+        <th>name</th>
+        <th>age</th>
         <th>email</th>
     </tr>
-    <tr>
-        <td th:utext="${user.getId()}"></td>
-        <td th:utext="${user.getName()()}"></td>
-        <td th:utext="${user.getAge()()}"></td>
-        <td th:utext="${user.getEmail()}"></td>
+    <tr th:object="${oneUser}">
+        <td th:text="${oneUser.getId()}"></td>
+        <td th:text="${oneUser.getUsername()}"></td>
+        <td th:text="${oneUser.getAge()}"></td>
+        <td th:text="${oneUser.getEmail()}"></td>
     </tr>
-
-    <!--    <a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>-->
-
-    <!--    <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">-->
-    <!--        <input type="submit" value="Delete"/>-->
-    <!--    </form>-->
-
 </table>
-<form  action="#"  th:action="@{/logout}" method="get">
+<form action="#" th:action="@{/logout}" method="get">
     <input type="submit" value="exit"/>
 </form>
-
 </body>
 </html>

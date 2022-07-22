@@ -1,19 +1,21 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usrs")
-public class User implements UserDetails{
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private byte age;
     private String password;
@@ -26,8 +28,8 @@ public class User implements UserDetails{
     public User() {
     }
 
-    public User(String name, String email, byte age, String password) {
-        this.name = name;
+    public User(String username, String email, byte age, String password) {
+        this.username = username;
         this.age = age;
         this.email = email;
         this.password = password;
@@ -41,12 +43,8 @@ public class User implements UserDetails{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public byte getAge() {
@@ -83,12 +81,13 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     @Override
@@ -115,7 +114,7 @@ public class User implements UserDetails{
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", age=" + age +
                 ", lastname='" + email + '\'' +
                 '}';

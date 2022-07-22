@@ -2,17 +2,12 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 import ru.kata.spring.boot_security.demo.repo.UserRepo;
 
-import javax.annotation.PostConstruct;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +15,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
-    private RoleRepo roleRepo;
 
     @Autowired
-    UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo) {
-        this.roleRepo = roleRepo;
+    UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
@@ -49,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User updateUser) {
         Optional<User> optionalUser = userRepo.findById(updateUser.getId());
         if(optionalUser.isPresent()){
-            optionalUser.get().setName(updateUser.getName());
+            optionalUser.get().setUsername(updateUser.getUsername());
             optionalUser.get().setAge(updateUser.getAge());
             optionalUser.get().setEmail(updateUser.getEmail());
             updateUser = optionalUser.get();
@@ -65,14 +58,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findUserByName(username);
+        User user = userRepo.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException("User not found");
-        user.setRoles(roleRepo.findRolesByUserId(user.getId()));
         return user;
     }
 
     @Override
     public User findUserByUsername(String userName) {
-        return userRepo.findUserByName(userName);
+        User user = userRepo.findUserByUsername(userName);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 }
