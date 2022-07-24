@@ -8,6 +8,8 @@
     <title>Users</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+
 </head>
 
 <body>
@@ -32,16 +34,16 @@
     <!-- /Navbar -->
 
     <!-- Left -->
-    
+
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 bg-white pt-3 min-vh-100 px-0">
                 <div>
-                    <div class="active" aria-pressed="false" >
+                    <div class="active" aria-pressed="false">
                         <a href="#" class="btn btn-primary btn-block mt-2" data-toggle="button" role="button">Admin</a>
                     </div>
-                    
+
                 </div>
                 <div>
                     <div class="active" aria-pressed="true">
@@ -60,24 +62,12 @@
                 </h2>
 
                 <!-- мини панель -->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           id="user-table-tab"
-                           data-toggle="tab"
-                           href="#userTable"
-                           role="tab"
-                           aria-controls="userTable"
-                           aria-selected="true">Users table</a>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active">
+                        <a href="#users" class="nav-link active" role="tab" data-toggle="tab">Users table</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           id="new-user-tab"
-                           data-toggle="tab"
-                           href="#newUser"
-                           role="tab"
-                           aria-controls="newUser"
-                           aria-selected="false">New user</a>
+                    <li>
+                        <a href="#new" class="nav-link" role="tab" data-toggle="tab">New user</a>
                     </li>
                 </ul>
 
@@ -87,50 +77,80 @@
                 <div class="tab-content">
 
                     <!-- содержимое первой вкладки -->
-                    <div class="tab-pane fade show active" id="userTable" role="tabpanel" aria-labelledby="user-table-tab">
-                        <div ml-2><h6>  All users</h6></div>
-                        <table>
-                            <tr th:each="user : ${users}">
-                                <td th:utext="${user.getId()}" />
-                                <td th:utext="${user.getUsername()}" />
-                                <td th:utext="${user.getEmail()}" />
-                                <td th:utext="${user.getAge()}" />
-                                <td th:utext="${user.getRoles()}" />
-                                <td><a class="btn btn-success" th:href="@{admin/{id}(id=${user.getId()})}">edit</a></td>
-                                <td>
-                                    <form th:method="DELETE" th:action="@{admin/{id}(id=${user.getId()})}">
-                                        <input type="submit" value="Delete" />
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
+                    <div role="tabpanel" class="tab-pane active" id="users">
+                        <div class="container-fluid" ml-2>
+                            <div>
+                                <h5> All users</h5>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Mail</th>
+                                        <th scope="col">Age</th>
+                                        <th scope="col">Roles</th>
+                                        <th scope="col">Edit</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${users}">
+                                        <td th:utext="${user.getId()}" />
+                                        <td th:utext="${user.getUsername()}" />
+                                        <td th:utext="${user.getEmail()}" />
+                                        <td th:utext="${user.getAge()}" />
+                                        <td th:utext="${user.getRoles()}" />
+
+                                        <td><a class="btn btn-info" th:href="@{admin/{id}(id=${user.getId()})}">edit</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#delete_modal">
+                                                Delete</button>
+                                        </td>
+
+                                        <!-- <td>
+                                            <form class="btn btn-danger btn-lg active" role="button" th:method="DELETE"
+                                                th:action="@{admin/{id}(id=${user.getId()})}">
+                                                <a  th:href="@{admin/{id}(id=${user.getId()})}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">Delete</a>
+                                                <input type="button " value="Delete" />
+                                            </form>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
 
                     <!-- содержимое второй вкладки -->
-                    <div class="tab-pane fade show active" id="newUser" role="tabpanel" aria-labelledby="new-user-tab">
-                        <h4>ldd</h4>
-                        <!-- <div class="container">
+                    <div role="tabpanel" class="tab-pane" id="new">
+                        <h5>new user</h5>
+                        <div class="container">
                             <form method="post" th:action="@{/admin}" th:object="${newUser}">
-                                <div>
-                                    <input type="text" name="name" />
-                                    <label th:for="name">Name</label>
-                                </div>
-                                <div>
-                                    <input type="text" name="email" />
-                                    <label th:for="email">Email</label>
+                                <table class="table">
+                                    <tbody>
+                                        <div><label th:for="username">Name</label></div>
+                                        <div><input type="text" name="username"></div>
 
-                                </div>
-                                <div>
-                                    <input type="number" name="age" />
-                                    <label th:for="age">Age</label>
-                                </div>
-                                <div>
-                                    <input type="text" name="password" />
-                                    <label th:for="password">Password</label>
-                                </div>
-                                <div><input type="submit" th:value="Save"></div>
+                                        <div><label th:for="email">Email</label></div>
+                                        <div><input type="text" name="email" /></div>
+
+                                        <div><label th:for="age">Age</label></div>
+                                        <div><input type="number" name="age" /></div>
+
+                                        <div><label th:for="password">Password</label></div>
+                                        <div><input type="text" name="password"/></div>
+
+                                        <div class="button mt-2"><input type="submit" th:value="Save"></div>
+                                    </tbody>
+
+
+                                </table>
                             </form>
-                        </div> -->
+                        </div>
                     </div>
 
                     <!-- ---------- -->
@@ -138,7 +158,56 @@
             </div>
         </div>
 
+
+
+
+
     </div>
+
+    <!-- modal -->
+    <!-- delete modal -->
+    <div class="modal fade" id="delete_modal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>age</th>
+                        <th>email</th>
+                    </tr>
+                    <!--                        <tr th:object="${oneUser}">-->
+                    <!--                            <td th:text="${oneUser.getId()}"></td>-->
+                    <!--                            <td th:text="${oneUser.getUsername()}"></td>-->
+                    <!--                            <td th:text="${oneUser.getAge()}"></td>-->
+                    <!--                            <td th:text="${oneUser.getEmail()}"></td>-->
+                    <!--                        </tr>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" value="delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit modal -->
 </body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
 </html>
