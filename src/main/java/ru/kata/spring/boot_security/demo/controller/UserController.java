@@ -27,7 +27,7 @@ public class UserController {
 
         User user = userService.findUserByUsername(principal.getName());
 
-        model.addAttribute("oneUser", user);
+        model.addAttribute("currentUser", user);
         return "user";
     }
 }

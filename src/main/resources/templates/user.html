@@ -1,26 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<table border="1" cellpadding="5">
-    <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>age</th>
-        <th>email</th>
-    </tr>
-    <tr th:object="${oneUser}">
-        <td th:text="${oneUser.getId()}"></td>
-        <td th:text="${oneUser.getUsername()}"></td>
-        <td th:text="${oneUser.getAge()}"></td>
-        <td th:text="${oneUser.getEmail()}"></td>
-    </tr>
-</table>
-<form action="#" th:action="@{/logout}" method="get">
-    <input type="submit" value="exit"/>
-</form>
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <form class="form-inline">
+            <b><span class="navbar-text-xl text-white" th:text="${currentUser.getEmail}"></span></b>
+            <span class="navbar-text-xl text-white">&nbsp with roles: &nbsp</span>
+            <span class="navbar-text-xl text-white" th:text="${currentUser.rolesToString()}"></span>
+        </form>
+
+        <ul class="navbar-nav float-lg-right">
+            <li class="nav-item">
+                <a class="nav-link text-muted" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- /Navbar -->
+
+
+<!-- Left -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 bg-white pt-3 min-vh-100 px-0">
+            <div class="container-fluid px-0">
+                <ul class="nav flex-column nav-pills ">
+                    <div sec:authorize="${hasRole('ADMIN')}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin</a>
+                        </li>
+                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user">User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /Left -->
+
+        <!-- /Right -->
+
+        <div class="col">
+            <h2>Info panel</h2>
+            <div class="container-fluid" ml-2>
+                <div><h5> About user</h5></div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Mail</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:object="${currentUser}">
+                        <td th:utext="*{getId()}"/>
+                        <td th:utext="*{getUsername()}"/>
+                        <td th:utext="*{getLastname()}"/>
+                        <td th:utext="*{getEmail()}"/>
+                        <td th:utext="*{getAge()}"/>
+                        <td th:utext="*{getRoles()}"/>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /Right -->
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

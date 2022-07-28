@@ -41,10 +41,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(User updateUser) {
         Optional<User> optionalUser = userRepo.findById(updateUser.getId());
-        if(optionalUser.isPresent()){
+
+        if (optionalUser.isPresent()) {
             optionalUser.get().setUsername(updateUser.getUsername());
+            optionalUser.get().setLastname(updateUser.getLastname());
+            optionalUser.get().setPassword(updateUser.getPassword());
             optionalUser.get().setAge(updateUser.getAge());
             optionalUser.get().setEmail(updateUser.getEmail());
+
+            optionalUser.get().getRoles().clear();
+            optionalUser.get().getRoles().addAll(updateUser.getRoles());
+
             updateUser = optionalUser.get();
         }
         userRepo.save(updateUser);

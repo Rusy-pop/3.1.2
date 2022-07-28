@@ -16,6 +16,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    private String lastname;
     private String email;
     private byte age;
     private String password;
@@ -28,8 +29,16 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String email, byte age, String password) {
+    public User(String username, String email, byte age) {
         this.username = username;
+        this.email = email;
+        this.age = age;
+
+    }
+
+    public User(String username, String lastname, String password, String email, byte age) {
+        this.username = username;
+        this.lastname = lastname;
         this.age = age;
         this.email = email;
         this.password = password;
@@ -45,6 +54,14 @@ public class User implements UserDetails {
 
     public void setUsername(String name) {
         this.username = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public byte getAge() {
@@ -78,6 +95,8 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public void addRole(Role role) {this.roles.add(role); }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -118,5 +137,14 @@ public class User implements UserDetails {
                 ", age=" + age +
                 ", lastname='" + email + '\'' +
                 '}';
+    }
+
+    public String rolesToString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role: roles) {
+            stringBuilder.append(role.name());
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.toString();
     }
 }

@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,8 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("admin")
@@ -25,18 +26,21 @@ public class AdminController {
     }
 
     @PostMapping
-    public String saveUser(@ModelAttribute("newUser") User newUser) {
-        newUser.setRoles(Collections.singleton(Role.USER));
+    public String saveUser(@ModelAttribute("newUser") User newUser,
+                           @RequestParam(required = false, name = "roles") Role role) {
+        newUser.setRoles(Set.of(role));
         userService.createUser(newUser);
         return "redirect:/admin";
     }
 
     @GetMapping
-    public String getAllUsers(Model model) {
+    public String getAllUsers(@AuthenticationPrincipal User currentUser,
+                              Model model) {
         List<User> list = userService.findAllUsers();
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("users", list);
         System.out.println(list);
-        return "usersCrudOp";
+        return "admin";
     }
 
     @GetMapping("{id}")
@@ -46,19 +50,26 @@ public class AdminController {
         return "update";
     }
 
-    @PatchMapping("{id}")
-    public String updateUser(@ModelAttribute("updateUser") User updateUser,
-                             @PathVariable(name = "id") long id) {
-        updateUser.setId(id);
-        userService.updateUser(updateUser);
+    @PatchMapping
+    public String updateUser(@RequestParam("ed-id") long id,
+                             @RequestParam("ed-name") String name,
+                             @RequestParam("ed-lastname") String lastname,
+                             @RequestParam("ed-password") String password,
+                             @RequestParam("ed-age") byte age,
+                             @RequestParam("ed-email") String email,
+                             @RequestParam(required = false, name = "ed-role") Role role) {
+
+        User user = new User(name, lastname, password, email, age);
+        user.setId(id);
+
+        user.setRoles(Set.of(role));
+        userService.updateUser(user);
         return "redirect:/admin";
     }
 
-    @PostMapping("delete")
-    public String deleteUser(@RequestParam("id") long id) {
+    @DeleteMapping
+    public String deleteUser(@RequestParam("del-id") long id) {
         userService.deleteUser(id);
-        System.out.println("////////////");
-        System.out.println(id);
         return "redirect:/admin";
     }
 }
