@@ -76,6 +76,7 @@
             <!-- контейнер с вкладками -->
             <div class="tab-content">
                 <!-- содержимое первой вкладки -->
+                <!-- таблица пользователей -->
                 <div role="tabpanel" class="tab-pane table-striped container-fluid active col border bg-light"
                      id="users">
                     <div class="bg-light"><p><h5>All users</h5></div>
@@ -93,39 +94,7 @@
                             <th scope="col">Delete</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr th:each="user : ${users}">
-                            <td th:utext="${user.getId()}"/>
-                            <td th:utext="${user.getUsername()}"/>
-                            <td th:utext="${user.getLastname()}"/>
-                            <td th:utext="${user.getEmail()}"/>
-                            <td th:utext="${user.getAge()}"/>
-                            <td th:utext="${user.getRoles()}"/>
-                            <td>
-                                <button type="button" class="btn btn-info btn-sm"
-                                        data-toggle="modal"
-                                        data-target="#editModal"
-                                        th:data-id="${user.getId()}"
-                                        th:data-name="${user.getUsername()}"
-                                        th:data-lastname="${user.getLastname()}"
-                                        th:data-password="${user.getPassword()}"
-                                        th:data-age="${user.getAge()}"
-                                        th:data-email="${user.getEmail()}"
-                                        th:data-roles="${user.getRoles()}">Edit
-                                </button>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm"
-                                        data-toggle="modal"
-                                        data-target="#deleteModal"
-                                        th:data-id="${user.getId()}"
-                                        th:data-name="${user.getUsername()}"
-                                        th:data-lastname="${user.getLastname()}"
-                                        th:data-age="${user.getAge()}"
-                                        th:data-email="${user.getEmail()}"
-                                        th:data-roles="${user.getRoles()}">Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <tbody class="allUsers">
                         </tbody>
                     </table>
 
@@ -139,45 +108,44 @@
                         <p><h5>Add new user</h5>
                     </div>
                     <div class="container-fluid justify-content-center text-center" ml-2>
-
-                        <form method="post" th:action="@{/admin}" th:object="${newUser}">
+                        <form id="addUser">
                             <div class="form-group row justify-content-center">
                                 <div class="col-sm-4">
                                     <strong><label th:for="username">First name</label></strong>
                                     <br/>
 
                                     <input type="text" class="form-control" required minlength="1" maxlength="50"
-                                           name="username">
+                                           name="username" id="username">
 
                                     <strong><label th:for="lastname">Last name</label></strong>
                                     <br/>
                                     <input type="text" class="form-control" required minlength="1" maxlength="50"
-                                           name="lastname">
+                                           name="lastname" id="lastname">
 
                                     <strong><label th:for="email">Email</label></strong>
                                     <br/>
                                     <input type="text" class="form-control" required minlength="1" maxlength="50"
-                                           name="email"/>
+                                           name="email" id="email"/>
 
                                     <strong><label th:for="age">Age</label></strong>
                                     <br/>
                                     <input type="text" class="form-control" required minlength="1" maxlength="50"
-                                           name="age"/>
+                                           name="age" id="age"/>
 
                                     <strong><label th:for="password">Password</label></strong>
                                     <br/>
                                     <input type="text" class="form-control" required minlength="1" maxlength="50"
-                                           name="password"/>
+                                           name="password" id="password"/>
 
                                     <strong><label th:for="roles">Roles</label></strong>
                                     <div>
-                                        <select multiple class="custom-select w-100">
+                                        <select multiple class="custom-select w-100" name="roles" id="roles">
                                             <option value="USER">USER</option>
                                             <option value="ADMIN">ADMIN</option>
                                         </select>
                                     </div>
 
-                                    <div class="button mt-2"><button type="button" class="btn btn-success">Add new user</button>
+                                    <div class="button mt-2"><button type="submit" class="btn btn-success">Add new user</button>
                                     </div>
                                 </div>
                             </div>
@@ -366,6 +334,9 @@
         modal.find('.modal-roles-ed input').val(roles)
     })
 </script>
+
+<script src = "allUsers.js" type="text/javascript"></script>
+<script src = "addUser.js" type="text/javascript"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
