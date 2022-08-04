@@ -4,7 +4,7 @@ const url = "http://localhost:8080/rest"
 fetch(url)
     .then(response => {
         if (response.ok) {
-            // console.log(response)
+            console.log(response)
             return response.json()
         } else {
             console.log("Error")
@@ -17,7 +17,7 @@ fetch(url)
 function userTable(users) {
     let output = ''
     users.forEach(user => {
-        output += ` 
+        output += `
                 <tr> 
                     <td>${user.id}</td> 
                     <td>${user.username}</td> 
@@ -26,27 +26,25 @@ function userTable(users) {
                     <td>${user.password}</td> 
                     <td>${user.roles}</td> 
                     <td>
-                        <button type="button" class="btn btn-info btn-sm"
-                            data-toggle="modal"
-                            data-target="#editModal"
-                            th:data-id="${user.id}"
-                            th:data-name="${user.username}"
-                            th:data-lastname="${user.lastname}"
-                            th:data-password="${user.password}"
-                            th:data-age="${user.age}"
-                            th:data-email="${user.email}"
-                            th:data-roles="${user.roles}">Edit
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editModal"
+                            data-id="${user.id}"
+                            data-name="${user.username}"
+                            data-lastname="${user.lastname}"
+                            data-password="${user.password}"
+                            data-age="${user.age}"
+                            data-email="${user.email}"
+                            data-roles="${user.roles}">Edit
                         </button>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm"
                             data-toggle="modal"
                             data-target="#deleteModal"
-                            th:data-id="${user.id}"
-                            th:data-name="${user.username}"
-                            th:data-lastname="${user.lastname}"
-                            th:data-age="${user.age}"
-                            th:data-email="${user.email}"
-                            th:data-roles="${user.roles}">Delete
+                            data-id="${user.id}"
+                            data-name="${user.username}"
+                            data-lastname="${user.lastname}"
+                            data-age="${user.age}"
+                            data-email="${user.email}"
+                            data-roles="${user.roles}">Delete
                         </button>
                     </td>
                 </tr>`
