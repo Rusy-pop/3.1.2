@@ -1,4 +1,3 @@
-// const url = "http://localhost:8080/rest"
 const addForm = document.getElementById("addUser");
 
 addForm.addEventListener("submit", (e) => {

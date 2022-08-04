@@ -76,7 +76,6 @@
             <!-- контейнер с вкладками -->
             <div class="tab-content">
                 <!-- содержимое первой вкладки -->
-                <!-- таблица пользователей -->
                 <div role="tabpanel" class="tab-pane table-striped container-fluid active col border bg-light"
                      id="users">
                     <div class="bg-light"><p><h5>All users</h5></div>
@@ -99,7 +98,6 @@
                     </table>
 
                 </div>
-
                 <!-- содержимое второй вкладки -->
                 <div role="tabpanel" class="tab-pane table-striped container-fluid col border bg-light"
                      id="new">
@@ -227,9 +225,8 @@
 <div class="modal" id="editModal">
     <div class="modal-dialog">
         <div class="modal-content">
-
             <!-- Modal Header -->
-            <form th:method="PATCH" th:action="@{/admin}">
+            <form id="editFormId">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit user</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -241,40 +238,40 @@
                     <div>
                         <div class="modal-id-ed">
                             <label class="fw-bold" for="ed-id">ID</label>
-                            <input name="ed-id" type="number" class="form-control" id="ed-id" placeholder="your id"
+                            <input name="id" type="number" class="form-control" id="ed-id" placeholder="your id"
                                    readonly>
                         </div>
                         <br>
                         <div class="modal-name-ed">
                             <label class="fw-bold" for="ed-name">First name</label>
-                            <input name="ed-name" type="text" class="form-control" id="ed-name" placeholder="Name">
+                            <input name="name" type="text" class="form-control" id="ed-name" placeholder="Name">
                         </div>
                         <br>
                         <div class="modal-lastname-ed">
                             <label class="fw-bold" for="ed-lastname">Last name</label>
-                            <input name="ed-lastname" type="text" class="form-control" id="ed-lastname"
+                            <input name="lastname" type="text" class="form-control" id="ed-lastname"
                                    placeholder="Name">
                         </div>
                         <br>
                         <div class="modal-password-ed">
                             <label class="fw-bold" for="ed-password">Password</label>
-                            <input name="ed-password" type="text" class="form-control" id="ed-password">
+                            <input name="password" type="text" class="form-control" id="ed-password">
                         </div>
                         <br>
                         <div class="modal-age-ed">
                             <label class="fw-bold" for="ed-age">Age</label>
-                            <input name="ed-age" type="number" class="form-control" id="ed-age" placeholder="Your age">
+                            <input name="age" type="number" class="form-control" id="ed-age" placeholder="Your age">
                         </div>
                         <br>
                         <div class="modal-email-ed">
                             <label class="fw-bold" for="ed-email">Email</label>
-                            <input name="ed-email" type="email" class="form-control" id="ed-email"
+                            <input name="email" type="email" class="form-control" id="ed-email"
                                    placeholder="your@email.com">
                         </div>
                         <br>
                         <div class="modal-roles-ed">
                             <label class="form-label text-center" for="ed-role">Roles</label>
-                            <select class="form-select" size="2" name="ed-role" id="ed-role" multiple aria-label="role"
+                            <select class="form-select" size="2" name="roles" id="ed-role" multiple aria-label="role"
                                     required>
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="USER">USER</option>
@@ -282,7 +279,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -312,29 +308,11 @@
         modal.find('.modal-roles-del input').val(roles)
     })
 </script>
-
 <script>
-    $('#editModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var name = button.data('name')
-        var lastname = button.data('lastname')
-        var password = button.data('password')
-        var age = button.data('age')
-        var email = button.data('email')
-        var roles = button.data('roles')
 
-        var modal = $(this)
-        modal.find('.modal-id-ed input').val(id)
-        modal.find('.modal-name-ed input').val(name)
-        modal.find('.modal-lastname-ed input').val(lastname)
-        modal.find('.modal-password-ed input').val(password)
-        modal.find('.modal-age-ed input').val(age)
-        modal.find('.modal-email-ed input').val(email)
-        modal.find('.modal-roles-ed input').val(roles)
-    })
 </script>
 
+<script src= "editUser.js" type="text/javascript"></script>
 <script src = "allUsers.js" type="text/javascript"></script>
 <script src = "addUser.js" type="text/javascript"></script>
 
