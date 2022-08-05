@@ -39,12 +39,10 @@ public class AdminRestController {
         return userService.findUserById(user.getId());
     }
 
-    @PutMapping("{id}")
-    public User updateUser(@PathVariable long id,
-                           @RequestBody User user) {
-        user.setId(id);
+    @PutMapping
+    public User updateUser(@RequestBody User user) {
         userService.updateUser(user);
-        return userService.findUserById(id);
+        return userService.findUserById(user.getId());
     }
 
     @DeleteMapping("{id}")
