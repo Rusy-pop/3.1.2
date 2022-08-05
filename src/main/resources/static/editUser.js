@@ -7,7 +7,6 @@ editForm.addEventListener("submit", (e) => {
     const object = {
         roles: ["USER"]
     }
-
     for (var pair of formData.entries()) {
         if (pair[0] === "roles") {
             if (pair[1] === "ADMIN") {
