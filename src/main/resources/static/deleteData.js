@@ -1,0 +1,17 @@
+$('#deleteModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id')
+    var name = button.data('name')
+    var lastname = button.data('lastname')
+    var age = button.data('age')
+    var email = button.data('email')
+    var roles = button.data('roles')
+
+    var modal = $(this)
+    modal.find('.modal-id-del input').val(id)
+    modal.find('.modal-name-del input').val(name)
+    modal.find('.modal-lastname-del input').val(lastname)
+    modal.find('.modal-age-del input').val(age)
+    modal.find('.modal-email-del input').val(email)
+    modal.find('.modal-roles-del input').val(roles)
+})

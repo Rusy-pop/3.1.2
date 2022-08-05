@@ -45,9 +45,9 @@ public class AdminRestController {
         return userService.findUserById(user.getId());
     }
 
-    @DeleteMapping("{id}")
-    public String deleteUser (@PathVariable long id) {
-        userService.deleteUser(id);
-        return "redirect:/rest";
+    @DeleteMapping
+    public User deleteUser(@RequestBody User user) {
+        userService.deleteUser(user.getId());
+        return userService.findUserById(user.getId());
     }
 }
