@@ -177,8 +177,9 @@
                                         </select>
                                     </div>
 
-                                    <div class="button mt-2"><button type="button" class="btn btn-success">Add new user</button>
-                                    </div>
+                                    <div class="button mt-2">
+                                        <button type="submit" class="btn btn-success">Add new user</button>
+                                    </div>                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -234,7 +235,7 @@
                         </div>
                         <br>
                         <label class="fw-bold" for="del-editRole">Roles</label>
-                        <select name="del-editRole" multiple size="2" class="form-select" id="del-editRole"
+                        <select name="del-editRole" multiple size="2" class="custom-select w-100" id="del-editRole"
                                 aria-label="Default select">
                             <option disabled value="1">ADMIN</option>
                             <option disabled value="2">USER</option>
@@ -306,7 +307,7 @@
                         <br>
                         <div class="modal-roles-ed">
                             <label class="form-label text-center" for="ed-role">Roles</label>
-                            <select class="form-select" size="2" name="ed-role" id="ed-role" multiple aria-label="role"
+                            <select class="custom-select w-100" size="2" name="ed-role" id="ed-role" multiple aria-label="role"
                                     required>
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="USER">USER</option>
