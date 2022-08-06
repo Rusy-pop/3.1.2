@@ -29,9 +29,11 @@ deleteForm.addEventListener("submit", (e) => {
         .then(response => {
             if (response.ok) {
                 console.log(JSON.stringify(deleteUser))
-                // return response.json()
             } else {
                 console.log("Error")
             }
         })
+        .then(() => getAllUsers());
+    $("#deleteModal").modal("hide");
+    deleteForm.reset();
 })

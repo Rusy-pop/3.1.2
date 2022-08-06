@@ -34,4 +34,7 @@ editForm.addEventListener("submit", (e) => {
                 console.log("Error")
             }
         })
+        .then(() => getAllUsers());
+    $("#editModal").modal("hide");
+    deleteForm.reset();
 })

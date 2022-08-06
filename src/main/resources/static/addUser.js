@@ -1,4 +1,6 @@
 const addForm = document.getElementById("addUser");
+const url = "http://localhost:8080/rest"
+
 
 addForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -30,9 +32,12 @@ addForm.addEventListener("submit", (e) => {
         .then(response => {
             if (response.ok) {
                 console.log(JSON.stringify(object))
-                return response.json()
             } else {
                 console.log("Error")
             }
         })
+        .then(() => getAllUsers())
+        .then(() => addForm.reset());
+
+    return show('showUsers','addUsers');
 })

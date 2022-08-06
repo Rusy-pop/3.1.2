@@ -1,29 +1,29 @@
-const allUsers = document.getElementById("allUsers");
-const url = "http://localhost:8080/rest"
+async function getAllUsers() {
+    const allUsers = document.getElementById("allUsers");
 
-fetch(url)
-    .then(response => {
-        if (response.ok) {
-            // console.log(response)
-            return response.json()
-        } else {
-            console.log("Error")
-        }
-    })
-    .then(data =>
-        userTable(data)
-    )
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                // console.log(response)
+                return response.json()
+            } else {
+                console.log("Error")
+            }
+        })
+        .then(data =>
+            userTable(data)
+        )
 
-function userTable(users) {
-    let table = ''
-    users.forEach(user => {
-        table += `
+    function userTable(users) {
+        let table = ''
+        users.forEach(user => {
+            table += `
                 <tr> 
                     <td>${user.id}</td> 
                     <td>${user.username}</td> 
                     <td>${user.lastname}</td> 
                     <td>${user.email}</td> 
-                    <td>${user.password}</td> 
+                    <td>${user.age}</td> 
                     <td>${user.roles}</td> 
                     <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="editButton" data-target="#editModal"
@@ -44,6 +44,7 @@ function userTable(users) {
                         </button>
                     </td>
                 </tr>`
-    })
-    allUsers.innerHTML = table;
+        })
+        allUsers.innerHTML = table;
+    }
 }
